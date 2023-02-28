@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TodosComponent } from './todos/todos.component';
 import { AboutComponent } from './about/about.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { NavComponent } from './nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -42,4 +42,12 @@ import { MatListModule } from '@angular/material/list';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(swUpdate: SwUpdate) {
+    swUpdate.available.subscribe(() => {
+      if (confirm("Neue Version verfügbar! Jetzt neuladen?")) {
+        location.reload();
+      }
+    });
+  }
+}
