@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Todo } from '../todo';
 import { TodoService } from '../todo.service';
 
 @Component({
@@ -7,10 +8,18 @@ import { TodoService } from '../todo.service';
   styleUrls: ['./todos.component.css']
 })
 export class TodosComponent {
+  todos: Todo[] = [];
+
   constructor(private todoService: TodoService) {
+    this.refresh();
   }
 
-  add(title: string) {
-    this.todoService.add(title);
+  async add(title: string) {
+    await this.todoService.add(title);
+    await this.refresh();
+  }
+
+  async refresh() {
+    this.todos = await this.todoService.getAll();
   }
 }
