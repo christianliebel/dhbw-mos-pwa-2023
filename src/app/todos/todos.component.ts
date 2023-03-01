@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SyncService } from '../sync.service';
 import { Todo } from '../todo';
 import { TodoService } from '../todo.service';
 
@@ -10,12 +11,17 @@ import { TodoService } from '../todo.service';
 export class TodosComponent {
   todos: Todo[] = [];
 
-  constructor(private todoService: TodoService) {
+  constructor(private todoService: TodoService, private syncService: SyncService) {
     this.refresh();
   }
 
   async add(title: string) {
     await this.todoService.add(title);
+    await this.refresh();
+  }
+
+  async sync() {
+    await this.syncService.sync();
     await this.refresh();
   }
 
