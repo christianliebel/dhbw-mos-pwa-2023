@@ -23,4 +23,8 @@ export class TodoService extends Dexie {
   async getAll() {
     return await this.todos.toArray();
   }
+
+  async bulkPut(todos: Todo[]) {
+    await this.todos.bulkPut(todos);
+  }
 }
